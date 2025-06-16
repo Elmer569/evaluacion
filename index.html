@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculador de Promedio Escolar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 20px;
+            background-color: #434340;
+        }
+        .container {
+            background: rgb(5, 122, 248);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 15px 0 8px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultado {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .aprobado {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .reprobado {
+            background-color: #ebffed;
+            color: #ff0000;
+            border: 1px solid #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculador de Promedio Escolar</h2>
+        <form id="formularioCalificaciones">
+            <label>Primer parcial:
+                <input type="number" min="0" max="100" required>
+            </label>
+            <label>Segundo parcial:
+                <input type="number" min="0" max="100" required>
+            </label>
+            <label>Tercer paracial:
+                <input type="number" min="0" max="100" required>
+            </label>
+            <label>Cuarto parcial:
+                <input type="number" min="0" max="100" required>
+            </label>
+            <button type="button" onclick="calcularPromedio()">Calcular Resultado</button>
+        </form>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function calcularPromedio() {
+            const formulario = document.getElementById('formularioCalificaciones');
+            const inputs = formulario.querySelectorAll('input[type="number"]');
+            const resultadoDiv = document.getElementById('resultado');
+            
+            // Validar que todos los campos estén llenos
+            for (let input of inputs) {
+                if (!input.value.trim()) {
+                    resultadoDiv.className = 'reprobado';
+                    resultadoDiv.textContent = 'Por favor complete todas las calificaciones';
+                    return;
+                }
+            }
+
+            // Calcular promedio
+            const valores = Array.from(inputs).map(input => parseFloat(input.value));
+            const promedio = valores.reduce((sum, val) => sum + val, 0) / valores.length;
+            
+            // Mostrar resultado
+            if (promedio >= 70) {
+                resultadoDiv.className = 'aprobado';
+                resultadoDiv.innerHTML = `¡Aprobado! 🎉<br>Su promedio es: ${promedio.toFixed(2)}%`;
+            } else {
+                resultadoDiv.className = 'reprobado';
+                resultadoDiv.innerHTML = `Reprobado 😢<br>Su promedio es: ${promedio.toFixed(2)}%`;
+            }
+        }
+    </script>
+</body>
+</html>
